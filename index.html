@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="simonGame">
+  <head>
+    <title>Simon Game</title>
+    <link href="content\css\styles.css" rel="stylesheet" type="text/css" />
+    <script src="app/lib/angular.min.js"></script>
+    <script src="app/lib/angular-route.min.js"></script>
+    <script src="app/lib/angular-animate.min.js"></script>
+    <script src="app/app.js"></script>
+  </head>
+  <body>
+
+        <div class="content" ng-controller="gameController">
+
+        <audio id="firstAudio">
+          <source src="audio/simonSound1.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="secondAudio">
+          <source src="audio/simonSound2.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="thirdAudio">
+          <source src="audio/simonSound3.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="fourthAudio">
+          <source src="audio/simonSound4.mp3" type="audio/mpeg">
+        </audio>
+
+                <div class="">
+                <a href="" ng-click="playAudio1()"><img src="img/left1.png" alt="1st">1</a>
+                <a href="" ng-click="playAudio2()"><img src="img/right1.png" alt="2nd">2</a>
+                </div>
+                <div class="">
+                <a href="" ng-click="playAudio3()"><img src="img/left2.png" alt="3rd">3</a>
+                <a href="" ng-click="playAudio4()"><img src="img/right2.png" alt="4th">4</a>
+                </div>
+                <div class="">
+                  <label class="switch">
+                    <input type="checkbox" ng-click="onOff()">
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+                <h1 class="border" ><pre>{{array.length}}</pre></h1>
+
+                <label class="switch">
+                  <input type="checkbox" checked ng-click="check()">
+                  <span class="slider"></span>
+                </label>
+
+                <button type="button" ng-click="robertPlay()" name="button">Start</button>
+
+
+
+
+        </div>
+
+  </body>
+</html>
