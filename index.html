@@ -2,7 +2,95 @@
 <html lang="en" ng-app="simonGame">
   <head>
     <title>Simon Game</title>
-    <link href="content\css\styles.css" rel="stylesheet" type="text/css" />
+    <style media="screen">
+    body{
+      font-family: Helvetica;
+      margin: 0;
+    }
+
+    h1,h2,h3{
+      margin: 0;
+    }
+
+    /* mouse over link */
+    a:hover {
+        color: hotpink;
+        background-color: yellow;
+
+    }
+
+    a:active {
+        color: blue;
+        background-color: yellow;
+
+    }
+
+
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .switch input {display:none;}
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+      box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+      border-radius: 34px;
+    }
+
+    .slider.round:before {
+      border-radius: 50%;
+    }
+    img {
+        opacity: 1;
+        /* filter: alpha(opacity=50); /* For IE8 and earlier */ */
+    }
+
+
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="https://code.angularjs.org/1.6.9/angular-route.min.js"></script>
     <script src="https://code.angularjs.org/1.6.9/angular-animate.min.js"></script>
@@ -13,55 +101,63 @@
         <div class="content" ng-controller="gameController">
 
         <audio id="firstAudio">
-          <source src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3" type="audio/mpeg">
+          <source src="simonSound1.mp3" type="audio/mpeg">
         </audio>
         <audio id="secondAudio">
-          <source src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3" type="audio/mpeg">
+          <source src="simonSound2.mp3" type="audio/mpeg">
         </audio>
         <audio id="thirdAudio">
-          <source src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3" type="audio/mpeg">
+          <source src="simonSound3.mp3" type="audio/mpeg">
         </audio>
         <audio id="fourthAudio">
-          <source src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3" type="audio/mpeg">
+          <source src="simonSound4.mp3" type="audio/mpeg">
         </audio>
 
+        <!-- <button type="button" class="btn btn-primary" name="button" ng-click="play()">Test audio</button> -->
+
                 <div class="">
-                <a href="" ng-click="playAudio1()"><img src="left1.png" alt="1st">1</a>
-                <a href="" ng-click="playAudio2()"><img src="right1.png" alt="2nd">2</a>
+                <a href="" ng-click="playAudio1()"><img id="left1" src="left1.png" alt="1st"></a>
+                <a href="" ng-click="playAudio2()"><img id="right1" src="right1.png" alt="2nd"></a>
                 </div>
                 <div class="">
-                <a href="" ng-click="playAudio3()"><img src="left2.png" alt="3rd">3</a>
-                <a href="" ng-click="playAudio4()"><img src="right2.png" alt="4th">4</a>
+                <a href="" ng-click="playAudio3()"><img id="left2" src="left2.png" alt="3rd"></a>
+                <a href="" ng-click="playAudio4()"><img id="right2" src="right2.png" alt="4th"></a>
                 </div>
                 <div class="">
+                    <h1 class="border" ><pre>On/OFF</pre></h1>
+
                   <label class="switch">
                     <input type="checkbox" ng-click="onOff()">
                     <span class="slider round"></span>
                   </label>
                 </div>
-                <h1 class="border" ><pre>{{array.length}}</pre></h1>
-
+                <h1 class="border" ><pre>Round:{{array.length}}</pre></h1>
+                <h1><pre>Strict</pre></h1>
                 <label class="switch">
                   <input type="checkbox" checked ng-click="check()">
                   <span class="slider"></span>
                 </label>
+            <div class="">
 
-                <button type="button" ng-click="robertPlay()" name="button">Start</button>
-
-<!-- <img src="img/images2.jpeg" alt="2nd">
-<div class="">
-    <p>hello</p>
-</div> -->
-
+                <button type="button" class="btn btn-primary" ng-click="robertPlay()" name="button">Start the Game</button>
+            </div>
 
         </div>
 <script type="text/javascript">
 
+//
 var simonGame = angular.module('simonGame',[]);
 
 
 
 simonGame.controller('gameController',['$scope',function($scope){
+
+// $scope.play = function(){
+//     document.getElementById("firstAudio").load();
+//     document.getElementById("firstAudio").play();
+// }
+
+
 
    $scope.onSwitch = false;
    $scope.reStart = false;
@@ -92,7 +188,13 @@ simonGame.controller('gameController',['$scope',function($scope){
        if($scope.array.length >0){
 
      if($scope.listener != true){
+     document.getElementById("firstAudio").load();
+     document.getElementById("left1").style.opacity = '0.5';
+     setTimeout(function(){
+         document.getElementById("left1").style.opacity = '1';
+     },500);
      document.getElementById("firstAudio").play();
+
      console.log('computer success1');
  }
 
@@ -100,6 +202,11 @@ simonGame.controller('gameController',['$scope',function($scope){
        $scope.array1.push(1);
        $scope.count1 +=1 ;
        console.log($scope.array1);
+       document.getElementById("firstAudio").load();
+       document.getElementById("left1").style.opacity = '0.5';
+       setTimeout(function(){
+           document.getElementById("left1").style.opacity = '1';
+       },500);
        document.getElementById("firstAudio").play();
 
          if ($scope.array[$scope.count1-1] != 1){
@@ -141,6 +248,11 @@ simonGame.controller('gameController',['$scope',function($scope){
        if($scope.array.length >0){
 
      if($scope.listener == false){
+         document.getElementById("secondAudio").load();
+         document.getElementById("right1").style.opacity = '0.5';
+         setTimeout(function(){
+             document.getElementById("right1").style.opacity = '1';
+         },500);
      document.getElementById("secondAudio").play();
      console.log('computer success2');
 
@@ -150,6 +262,11 @@ simonGame.controller('gameController',['$scope',function($scope){
        $scope.array1.push(2);
        $scope.count1 +=1 ;
        console.log($scope.array1);
+       document.getElementById("secondAudio").load();
+       document.getElementById("right1").style.opacity = '0.5';
+       setTimeout(function(){
+           document.getElementById("right1").style.opacity = '1';
+       },500);
        document.getElementById("secondAudio").play();
 
          if ($scope.array[$scope.count1-1] != 2){
@@ -190,6 +307,11 @@ simonGame.controller('gameController',['$scope',function($scope){
        if($scope.array.length >0){
 
      if($scope.listener == false){
+         document.getElementById("thirdAudio").load();
+         document.getElementById("left2").style.opacity = '0.5';
+         setTimeout(function(){
+             document.getElementById("left2").style.opacity = '1';
+         },500);
      document.getElementById("thirdAudio").play();
      console.log('computer success3');
 
@@ -199,6 +321,11 @@ simonGame.controller('gameController',['$scope',function($scope){
        $scope.array1.push(3);
        $scope.count1 +=1 ;
        console.log($scope.array1);
+       document.getElementById("thirdAudio").load();
+       document.getElementById("left2").style.opacity = '0.5';
+       setTimeout(function(){
+           document.getElementById("left2").style.opacity = '1';
+       },500);
        document.getElementById("thirdAudio").play();
 
          if ($scope.array[$scope.count1-1] != 3){
@@ -238,6 +365,11 @@ simonGame.controller('gameController',['$scope',function($scope){
        if($scope.array.length >0){
 
      if($scope.listener == false){
+         document.getElementById("fourthAudio").load();
+         document.getElementById("right2").style.opacity = '0.5';
+         setTimeout(function(){
+             document.getElementById("right2").style.opacity = '1';
+         },500);
      document.getElementById("fourthAudio").play();
      console.log('computer success4');
 
@@ -247,6 +379,11 @@ simonGame.controller('gameController',['$scope',function($scope){
        $scope.array1.push(4);
        $scope.count1 +=1 ;
        console.log($scope.array1);
+       document.getElementById("fourthAudio").load();
+       document.getElementById("right2").style.opacity = '0.5';
+       setTimeout(function(){
+           document.getElementById("right2").style.opacity = '1';
+       },500);
        document.getElementById("fourthAudio").play();
 
          if ($scope.array[$scope.count1-1] != 4){
